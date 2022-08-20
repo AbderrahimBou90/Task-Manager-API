@@ -5,7 +5,7 @@ const app = experss()
 
 const task = require('./routes/tasks')
 
-
+// middleware 
 app.use(experss.json())
 
 app.get('/hello',(req,res)=>{
@@ -13,6 +13,7 @@ app.get('/hello',(req,res)=>{
 })
 
 app.use('/api/v1/tasks',task)
+app.use('/api/v1/tasks/:id',task)
 
 
 
