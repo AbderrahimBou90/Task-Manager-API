@@ -5,11 +5,13 @@ const getAllTasks = (req, res) => {
 };
 
 const createTask = (req, res) => {
-  res.send("create task");
+  // for testing puropses in postman
+  res.json(req.body);
 };
 
 const getSingleTask = (req, res) => {
-  res.send("get single task");
+  // for testing purposes in postman
+  res.json({id:req.params.id});
 };
 
 const updateTask = (req, res) => {
