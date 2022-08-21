@@ -3,6 +3,9 @@
 const experss = require('express')
 const app = experss()
 
+// if you remember if we have a function in a module and we need to execute it, we only require (import) the module and the function execute right away 
+require('./db/connect')
+
 const task = require('./routes/tasks')
 
 // middleware 
