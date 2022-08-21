@@ -1,10 +1,9 @@
 // set up the most basic express server 
-
 const experss = require('express')
 const app = experss()
-
 // if you remember if we have a function in a module and we need to execute it, we only require (import) the module and the function execute right away 
-require('./db/connect')
+// require('./db/connect')
+const connectDB = require("./db/connect");
 
 const task = require('./routes/tasks')
 
@@ -29,8 +28,17 @@ app.use('/api/v1/tasks/:id',task)
 // app.delete('/api/v1/tasks/:id') - delete task 
 
 
-
 const port = 3000
-app.listen(port,()=>{
- console.log(`server listening or runing on port ${port}... `)
-})
+
+const start = async ()=>{
+ try {
+  // we will just sping up the server if the connection to DB is successful meaining we await until connectDB() function connect then we will runing the server 
+  await connectDB()
+  app.listen(port,()=>{
+   console.log(`server listening or runing on port ${port}... `)
+  })
+ } catch (error) {
+  console.log(error)
+ }
+}
+start()
