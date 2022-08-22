@@ -8,8 +8,8 @@
 const mongoose = require('mongoose')
 
 // setup schema  (structure for the data) 
-const TaskSchema = new mongoose({
- name:String,
+const TaskSchema = new mongoose.Schema({
+ name: String,
  completed: Boolean
 })
 
