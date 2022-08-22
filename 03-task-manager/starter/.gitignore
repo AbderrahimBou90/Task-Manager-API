@@ -1,2 +1,3 @@
 /node_modules
+# always always always add .env to gitignore for prevent secret code to be publish in github
 .env
