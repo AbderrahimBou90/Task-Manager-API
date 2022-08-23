@@ -21,9 +21,21 @@ const createTask = async (req, res) => {
   }
 };
 
-const getSingleTask = (req, res) => {
+const getSingleTask = async (req, res) => {
   // for testing purposes in postman
-  res.json({id:req.params.id});
+  try {
+    // we give id an aliase 
+    const {id:taskID} = req.params
+    // you can use findOne() or findById()
+    const task = await Task.findOne({_id:taskID})
+    // if something went wrong with an id 
+    if(!task){
+      return res.status(404).json({msg:`No task with id ${taskID}`})
+    }
+    res.status(200).json({task})
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 };
 
 const updateTask = (req, res) => {
