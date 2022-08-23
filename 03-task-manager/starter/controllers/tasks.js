@@ -6,7 +6,11 @@ const getAllTasks = async (req, res) => {
   try {
     // Task.find({}) gets us all the document (data) in the collection
     const tasks = await Task.find({})
+
     res.status(200).json({ tasks })
+    // as far as type of responses sky is the limit, some exmaple:
+    // res.status(200).json({ tasks,amount:tasks.length })
+    // res.status(200).json({ success:true,data:{tasks} })
   } catch (error) {
     res.status(500).json({ msg: error });
   }
