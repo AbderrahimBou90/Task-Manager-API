@@ -10,10 +10,13 @@ const task = require('./routes/tasks')
 
 // middleware 
 app.use(experss.json())
+// setup static file (add Front-End)
+app.use(experss.static('./public'))
 
-app.get('/hello',(req,res)=>{
- res.send('Task Manager App')
-})
+// routes 
+// app.get('/hello',(req,res)=>{
+//  res.send('Task Manager App')
+// })
 
 app.use('/api/v1/tasks',task)
 app.use('/api/v1/tasks/:id',task)
