@@ -7,6 +7,8 @@ const connectDB = require("./db/connect");
 require('dotenv').config()
 
 const task = require('./routes/tasks')
+// import middleware if route not found 
+const notFound = require('./middleware/not-found')
 
 // middleware 
 app.use(experss.json())
@@ -19,8 +21,8 @@ app.use(experss.static('./public'))
 // })
 
 app.use('/api/v1/tasks',task)
-app.use('/api/v1/tasks/:id',task)
 
+app.use(notFound)
 
 
 // route structure and details
