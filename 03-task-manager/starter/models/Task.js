@@ -9,8 +9,17 @@ const mongoose = require('mongoose')
 
 // setup schema  (structure for the data) 
 const TaskSchema = new mongoose.Schema({
- name: String,
- completed: Boolean
+ name:{
+  type:String,
+  required: [true,'must provide name'],
+  // trim allows us don't have any white space in name 
+  trim: true ,
+  maxlength:[20,'name can not be more than 20 characters']
+ },
+ completed:{
+  type:Boolean, 
+  default:false
+ }
 })
 
 
