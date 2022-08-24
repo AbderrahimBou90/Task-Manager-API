@@ -7,12 +7,15 @@ const connectDB = require("./db/connect");
 require('dotenv').config()
 
 const task = require('./routes/tasks')
-// import middleware if route not found 
+// import middleware for route not found 
 const notFound = require('./middleware/not-found')
+// import middleware for custom error handler
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
-// middleware 
+
+// middleware, every request commes in will first go throw this express json middleware which will convert body to json 
 app.use(experss.json())
-// setup static file (add Front-End)
+// setup static file (add Front-End) 
 app.use(experss.static('./public'))
 
 // routes 
@@ -23,6 +26,7 @@ app.use(experss.static('./public'))
 app.use('/api/v1/tasks',task)
 
 app.use(notFound)
+app.use(errorHandlerMiddleware)
 
 
 // route structure and details
