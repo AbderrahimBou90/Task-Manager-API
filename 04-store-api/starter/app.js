@@ -1,7 +1,8 @@
 // import .env 
 require('dotenv').config()
-// async errors in comming videos 
 
+// async errors in comming videos (we use in previous project async wrapper and in this project we use package by name express-async-errors)
+require("express-async-errors");
 
 // setup express server 
 const express = require('express')
