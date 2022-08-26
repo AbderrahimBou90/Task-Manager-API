@@ -19,8 +19,11 @@ try {
  // create data in database DB
  await Product.create(jsonProducts)
  console.log('Success')
+ // we don't want the file to keep running for that we add exit() method with index 0 if all thing is going well and with 1 in there is an error 
+ process.exit(0)
 } catch (error) {
  console.log(error)
+ process.exit(1)
 }
 }
 
