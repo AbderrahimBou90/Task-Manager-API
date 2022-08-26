@@ -9,6 +9,8 @@ const app = express()
 
 // import connectDB 
 const connectDB = require('./db/connect')
+// import route 
+const productsRouter = require('./routes/products')
 
 // import middlewares
 const notFoundMiddleware = require('./middleware/not-found')
@@ -24,6 +26,8 @@ app.get('/',(req,res)=>{
 })
 
 // products route in comming videos 
+// this path in use() method is the main path
+app.use('/api/v1/products',productsRouter)
 
 
 app.use(notFoundMiddleware)
