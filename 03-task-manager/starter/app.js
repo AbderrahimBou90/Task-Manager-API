@@ -38,7 +38,8 @@ app.use(errorHandlerMiddleware)
 // app.delete('/api/v1/tasks/:id') - delete task 
 
 
-const port = 3000
+// for deployment purposes we use port variable that availble in proccess.env and set or operator just in case it's undefiend 
+const port = process.env.PORT || 3000
 
 const start = async ()=>{
  try {
