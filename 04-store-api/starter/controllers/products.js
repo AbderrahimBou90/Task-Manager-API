@@ -6,7 +6,16 @@ const getAllProductsStatic = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
-  const products = await Product.find(req.query);
+  // console.log(req.query)
+  // we handling if the property in data is there but the value doesn't much and if we try to setup a property doesn't exist in our data 
+  const {featured} = req.query
+
+  const queryObejct = new Object()
+  if(featured){
+    queryObejct.featured = featured == 'true' ? true : false
+  }
+
+  const products = await Product.find(queryObejct);
   res.status(200).json({ products, nbHits: products.length });
 };
 
