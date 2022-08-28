@@ -3,7 +3,7 @@ const Product = require("../models/product");
 const getAllProductsStatic = async (req, res) => {
   // we chain sort() method if name normal that's mean a-z if negative z-a
   // if price normal that mean from smaller to bigger (<<<) if negative oposite (>>>>)
-  const products = await Product.find({}).select("name price");
+  const products = await Product.find({}).select("name price").sort('name').limit(10).skip(1)
   res.status(200).json({ products, nbHits: products.length });
 };
 
@@ -34,7 +34,7 @@ const getAllProducts = async (req, res) => {
       const sortList = sort.split(',').join(' ')
       result = result.sort(sortList)
   } else{
-    result = result.sort('')
+    result = result.sort('createAt')
   }
   // handling select fields (options)
   if (fields) {
