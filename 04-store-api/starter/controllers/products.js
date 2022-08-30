@@ -14,7 +14,7 @@ const getAllProducts = async (req, res) => {
   // console.log(req.query)
   // we handling if the property in data is there but the value doesn't much and if we try to setup a property doesn't exist in our data.
   // we pull out only the properties names in our query
-  const { featured, company, name, sort, fields } = req.query;
+  const { featured, company, name, sort, fields, numericFilters } = req.query;
   // setup empty object
   const queryObejct = new Object();
   // handling featured
@@ -30,8 +30,36 @@ const getAllProducts = async (req, res) => {
   if (name) {
     queryObejct.name = { $regex: name, $options: "i" };
   }
-  // console.log(queryObejct);
+  
+  // numericFilter filter by math operatiors (>=,<=,>,<,=) price and rating
+  if (numericFilters) {
+    // first convert operators to values that understood by mongoose
+    const operatorMap = {
+      ">": "$gt",
+      ">=": "$gte",
+      "=": "$eq",
+      "<": "$lt",
+      "<=": "$lte",
+    };
+    const regEx = /\b(<|>|>=|<=|=)\b/g;
+    // we replace operators by values that understood by mongoose
+    let filters = numericFilters.replace(
+      regEx,
+      (match) => `-${operatorMap[match]}-`
+    );
+    const options = ["price", "rating"];
+    filters = filters.split(",").forEach((item) => {
+      // we use array destructuring to pull up the values
+      const [field, operator, value] = item.split("-");
+      if (options.includes(field)) {
+        queryObejct[field] = { [operator]: Number(value) };
+      }
+    });
+    console.log(filters);
+  }
+  console.log(queryObejct);
   let result = Product.find(queryObejct);
+
   // handling sort
   if (sort) {
     const sortList = sort.split(",").join(" ");
