@@ -21,7 +21,7 @@ const login = async (req,res)=>{
   }
 
   // just for demo, normally provided by DB!!!!
-  const id = new Date().getTime();
+  const id = new Date().getDate();
 
   // in sign() method we need to provide 3 values: payload, a jwt secret, options
   // try to keep payload small, better experience for user 
@@ -37,11 +37,21 @@ const dashboard = async (req,res) =>{
  // console.log(req.headers)
  const authHeader = req.headers.authorization
  // console.log(authHeader)
+ // check authHeader
  if(!authHeader || !authHeader.startsWith('Bearer ')){
-    throw new CustomAPIError("Please provide email and password", 400);
+    throw new CustomAPIError("No token provided", 401);
  }
- const luckyNumber = Math.floor(Math.random() * 100)
- res.status(200).json({msg:`Hello, John Doe`,secret:`Here is your authorized data, your lucky number is ${luckyNumber}`})
+ // extract only token 
+ const token = authHeader.split(' ')[1]
+ // Verify Token
+ try {
+  const decoded = jwt.verify(token,process.env.JWT_SECRET)
+  // console.log(decoded)
+  const luckyNumber = Math.floor(Math.random() * 100)
+  res.status(200).json({msg:`Hello, ${decoded.username}`,secret:`Here is your authorized data, your lucky number is ${luckyNumber}`})
+ } catch (error) {
+  throw new CustomAPIError("Not Authorized to access this route", 401);
+ }
 }
 
 module.exports = {login,dashboard}
