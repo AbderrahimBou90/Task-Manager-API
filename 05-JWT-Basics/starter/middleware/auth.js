@@ -1,7 +1,7 @@
 // auth middleware (refactor code from dashboard controller)
 
 const jwt = require("jsonwebtoken");
-const CustomAPIError = require("../errors/custom-error");
+const {UnauthenticatedError} = require("../errors");
 
 const authonticationMiddleware = async (req, res, next) => {
   // console.log(req.headers)
@@ -9,7 +9,7 @@ const authonticationMiddleware = async (req, res, next) => {
   // console.log(authHeader)
   // check authHeader
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new CustomAPIError("No token provided", 401);
+    throw new UnauthenticatedError("No token provided");
   }
   // extract only token
   const token = authHeader.split(" ")[1];
@@ -23,7 +23,7 @@ const authonticationMiddleware = async (req, res, next) => {
     req.user = {id, username}
     next();
   } catch (error) {
-    throw new CustomAPIError("Not Authorized to access this route", 401);
+    throw new UnauthenticatedError("Not Authorized to access this route");
   }
 };
 
