@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const bcrypt = require("bcryptjs");
+
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -25,6 +27,14 @@ const UserSchema = new mongoose.Schema({
     // maxlength: 12,
   },
 });
+
+// ••••••••••••• hashing password by using pre middleware •••••••••••••••••••
+// mongoose middleware, pre: meaning before we save our document we hash our password,and in callback function we can access properties in document and change what we wanna change in this case we hash password, we use middleware to prevent jamming code in controller 
+UserSchema.pre('save',async function(next){
+  const salt = await bcrypt.genSalt(10)
+  this.password = await bcrypt.hash(this.password,salt)
+  next()
+})
 
 
 module.exports = mongoose.model('User',UserSchema)
