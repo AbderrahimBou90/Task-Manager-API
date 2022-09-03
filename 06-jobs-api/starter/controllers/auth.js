@@ -2,7 +2,6 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
-const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   // ••••••••••••••••••••• hashing password code •••••••••••••••••••••••••
@@ -19,9 +18,7 @@ const register = async (req, res) => {
 
   // create user in DB
   const user = await User.create({ ...req.body });
-  const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
-    expiresIn: "30d",
-  });
+  const token = user.createJWT()
   res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
 };
 
