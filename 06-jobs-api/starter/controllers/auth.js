@@ -32,9 +32,13 @@ if(!email || !password){
 }
 // check for the user 
 const user = await User.findOne({email})
-// compare password (next video)
 if(!user){
   throw new UnauthenticatedError('Invalid Credentials ')
+}
+// compare password (next video)
+const isPasswrodCorrect = await user.comparePassword(password)
+if (!isPasswrodCorrect) {
+  throw new UnauthenticatedError("Invalid Credentials ");
 }
 // if user there 
 const token = user.createJWT()

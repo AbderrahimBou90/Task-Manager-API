@@ -42,6 +42,11 @@ UserSchema.methods.createJWT = function(){
   return jwt.sign({userId:this._id,name:this.name},process.env.JWT_SECRET,{expiresIn:process.env.JWT_LIFETIME})
 }
 
-
+// compare passwrod 
+UserSchema.methods.comparePassword = async function(condidatePassword){
+  // in compare() method we pass two thing condidate password form req and password from model schema 
+  const isMatch = await bcrypt.compare(condidatePassword,this.password)
+  return isMatch
+}
 
 module.exports = mongoose.model('User',UserSchema)
