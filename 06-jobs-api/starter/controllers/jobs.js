@@ -10,7 +10,7 @@ const getSingleJob = (req, res) => {
 
 
 const createJob = (req, res) => {
-  res.send("create job");
+  res.json(req.user);
 };
 
 
