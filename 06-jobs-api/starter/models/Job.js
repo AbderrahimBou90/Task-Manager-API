@@ -15,8 +15,11 @@ const JobSchema = new mongoose.Schema({
   enum:['interview','declined','pending'],
   default:'pending'
  },
+ // we are tying our job model to the user model 
+ // we wanna tie the job to the user, we don't wanna to create without the use 
  createdBy:{
   type:mongoose.Types.ObjectId,
+  ref:'User',
   required: [true,'Please provide user']
  }
 },{timestamps:true})
