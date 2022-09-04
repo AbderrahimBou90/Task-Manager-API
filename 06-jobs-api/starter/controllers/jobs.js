@@ -4,7 +4,9 @@ const {BadRequestError,NotFoundError} = require('../errors')
 
 
 const getAllJobs = async (req, res) => {
-  res.send("get all jobs");
+  // we are looking for the id of the user (specific user(owner of account))
+  const jobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
+  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
 
@@ -14,10 +16,10 @@ const getSingleJob = async (req, res) => {
 
 
 const createJob = async (req, res) => {
-  // we are looking for the id of the user 
+  // we are looking for the id of the user (specific user (owner of account))
   // we create a property by name createdBy in req.body object and we a signe id as a value
   req.body.createdBy = req.user.userId
-  console.log(req.body)
+  // console.log(req.body)
   // we create job
   const job = await Job.create(req.body)
   res.status(StatusCodes.CREATED).json(job);
