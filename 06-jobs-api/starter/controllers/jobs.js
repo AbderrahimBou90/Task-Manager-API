@@ -37,7 +37,22 @@ const createJob = async (req, res) => {
 
 
 const updateJob = async (req, res) => {
-  res.send("update job");
+  // we are looking for three things in req, job id form params and userId from user and req.body
+    const {
+      body: {company,position},
+      user: { userId },
+      params: { id: jobId },
+    } = req;
+
+    if(company === '' || position === ''){
+      throw new NotFoundError('Company or Position fields can not be empty')
+    }
+    const job = await Job.findOneAndUpdate({_id:jobId,createdBy:userId},req.body,{new:true,runValidators:true})
+    
+    if (!job) {
+      throw new NotFoundError(`No job with id ${jobId}`);
+    }
+    res.status(StatusCodes.OK).json({ job });
 };
 
 
