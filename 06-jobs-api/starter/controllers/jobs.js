@@ -11,7 +11,17 @@ const getAllJobs = async (req, res) => {
 
 
 const getSingleJob = async (req, res) => {
-  res.send("get single jobs");
+  // we are looking for two things in req job id form params and userId from user
+  // we are doing nested desturcturing 
+  const {user:{userId},params:{id:jobId} } = req
+  const job = await Job.findOne({
+    _id:jobId,
+    createdBy:userId
+  })
+  if(!job){
+    throw new NotFoundError(`No job with id ${jobId}`)
+  }
+  res.status(StatusCodes.OK).json({job});
 };
 
 
